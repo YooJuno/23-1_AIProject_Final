@@ -64,11 +64,12 @@ model = tf.keras.models.Sequential([
 ])
 
 
+
 # 모델 컴파일
 model.compile(optimizer='adam', loss='mse')
 
 # 모델 학습
-model.fit(X_train, y_train, epochs=20, batch_size=32, shuffle=False)
+model.fit(X_train, y_train, epochs=50, batch_size=32, shuffle=False)
 
 # 예측 수행
 y_pred = model.predict(X_test)
