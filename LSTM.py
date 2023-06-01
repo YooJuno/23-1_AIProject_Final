@@ -5,8 +5,8 @@ import tensorflow as tf
 from sklearn.preprocessing import MinMaxScaler
 
 # 액세스 키 설정
-access_key = "VTJBxRRNXuS6lxzJsPGWlSC2xRvk8d7jGKAztoP1"
-secret_key = "369wva72AmEcbLQjDOLQaSS2zQ4uH4kD8vTOJj6m"
+access_key = ""
+secret_key = ""
 upbit = pyupbit.Upbit(access_key, secret_key)
 
 def get_historical_price(ticker, interval, count):
