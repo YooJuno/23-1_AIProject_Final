@@ -55,6 +55,7 @@ def predict_price(ticker):
 
 
 
+
 predict_price("KRW-XRP")
 schedule.every().hour.do(lambda: predict_price("KRW-XRP"))
 
