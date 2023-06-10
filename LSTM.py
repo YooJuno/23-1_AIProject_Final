@@ -9,8 +9,8 @@ import time
 
 
 # 액세스 키 설정
-access_key = ""
-secret_key = ""
+access_key = "VTJBxRRNXuS6lxzJsPGWlSC2xRvk8d7jGKAztoP1"
+secret_key = "369wva72AmEcbLQjDOLQaSS2zQ4uH4kD8vTOJj6m"
 upbit = pyupbit.Upbit(access_key, secret_key)
 REPL = "KRW-XRP"
 
@@ -46,7 +46,7 @@ def create_sequences(data, seq_length):
 
 def get_target_price(ticker, k):
     """변동성 돌파 전략으로 매수 목표가 조회"""
-    df = pyupbit.get_ohlcv(ticker, interval="day", count=2)
+    df = pyupbit.get_ohlcv(ticker, interval="minute", count=1)
     target_price = df.iloc[0]['close'] + (df.iloc[0]['high'] - df.iloc[0]['low']) * k
     return target_price
 
@@ -102,9 +102,9 @@ def predict_price(ticker):
     for i in range(len(y_pred)):
         print("실제 가격: {:.2f}, 예측 가격: {:.2f}".format(y_test[i][0], y_pred[i][0]))
 
-    predicted_close_price = y_pred[i][-1]
+    predicted_close_price = y_pred[-1][0]
 
-    print('predicted_close_price : ', predicted_close_price)
+    print('[juno] predicted_close_price : ', predicted_close_price)
 
 def get_balance(ticker):
     """잔고 조회"""
@@ -117,42 +117,50 @@ def get_balance(ticker):
                 return 0
     return 0
 
+maesu_price=0
+maemae = 0
 
-predict_price(REPL)
-schedule.every(30).minutes.do(lambda: predict_price(REPL))
+if __name__ == "__main__":
+    predict_price(REPL)
+    schedule.every(10).minutes.do(lambda: predict_price(REPL))
 
+    cnt = 0
+    while True:
+        try:
+            print('\ncnt :',cnt)
+            cnt+=1
 
+            now = datetime.datetime.now()
+            start_time = get_start_time(REPL)
+            end_time = start_time + datetime.timedelta(days=1)
+            schedule.run_pending()
 
-cnt = 0
-while True:
-    try:
-        print('\ncnt :',cnt)
-        cnt+=1
-
-        now = datetime.datetime.now()
-        start_time = get_start_time(REPL)
-        end_time = start_time + datetime.timedelta(days=1)
-        schedule.run_pending()
-
-        if start_time < now < end_time - datetime.timedelta(seconds=10):
-            target_price = get_target_price(REPL, 0.5)
+            target_price = get_target_price(REPL, 0.6) # k값 중요
             print('target price :', target_price)
             current_price = get_current_price(REPL)
             print('current price :', current_price)
             print('predicted_close_price : %.1f'%(predicted_close_price))
-            if target_price < current_price and current_price < predicted_close_price:
-                krw = get_balance("KRW")
-                print('krw :', krw)
-                if krw > 5000:
-                    # upbit.buy_market_order(REPL, krw*0.9995)
-                    print('juno buy!!!!!!!!!!')
-        else:
-            XRP = get_balance(REPL)
-            if XRP > 0.00008:
-                # upbit.sell_market_order(REPL, XRP*0.9995)
-                print('juno sell!!!!!!!!!!')
-        time.sleep(10)
-    except Exception as e:
-        print(e)
-        time.sleep(1)
+            if maemae == 0:
+                if target_price < current_price < predicted_close_price:
+                    maesu_price = current_price
+
+                    krw = get_balance("KRW")
+
+                    print('krw :', krw)
+
+                    if krw > 5000:
+                        # upbit.buy_market_order(REPL, krw*0.9995)
+                        print('juno buy!!!!!!!!!!')
+
+                maemae = 1
+
+            else : 
+                if current_price > maesu_price*0.98:
+      
+                    upbit.sell_market_order(REPL, XRP*0.9995)
+                    print('juno sell!!!!!!!!!!')
+            time.sleep(10)
+        except Exception as e:
+            print(e)
+            time.sleep(1)
 
