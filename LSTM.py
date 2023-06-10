@@ -153,7 +153,7 @@ if __name__ == "__main__":
             maemae = 1
 
         else : 
-            if current_price > maesu_price*0.98 or :
+            if current_price < maesu_price*0.98 or current_price > maesu_predicted_close:
                 upbit.sell_market_order(REPL, REPL*0.9995)
                 print('juno sell!!!!!!!!!!')
             maemae = 0
