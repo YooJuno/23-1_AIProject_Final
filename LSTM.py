@@ -135,9 +135,9 @@ if __name__ == "__main__":
         schedule.run_pending()
 
         target_price = get_target_price(REPL, 0.6) # k값 중요
-        print('target price :', target_price)
+        print('target price :', target_price, end=' | ')
         current_price = get_current_price(REPL)
-        print('current price :', current_price)
+        print('current price :', current_price, end=' | ')
         print('predicted_close_price : %.1f'%(predicted_close_price))
         if maemae == 0:
             if target_price < current_price < predicted_close_price:
