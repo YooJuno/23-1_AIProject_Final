@@ -12,7 +12,7 @@ import time
 access_key = ""
 secret_key = ""
 upbit = pyupbit.Upbit(access_key, secret_key)
-REPL = "KRW-XRP"
+REPL = "KRW-DOGE"
 
 
 def get_historical_price(ticker, interval, count):
