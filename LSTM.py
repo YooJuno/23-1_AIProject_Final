@@ -6,6 +6,7 @@ from sklearn.preprocessing import MinMaxScaler
 import datetime
 import schedule
 import time
+import matplotlib.pyplot as plt
 
 
 # 액세스 키 설정
@@ -91,12 +92,17 @@ def predict_price(ticker):
     # 모델 컴파일
     model.compile(optimizer='adam', loss='mse')
     # 모델 학습
-    model.fit(X_train, y_train, epochs=50, batch_size=32, shuffle=False)
+    model.fit(X_train, y_train, epochs=5, batch_size=32, shuffle=False)
     # 예측 수행
     y_pred = model.predict(X_test)
     # 스케일 역변환
     y_pred = scaler.inverse_transform(y_pred)
     y_test = scaler.inverse_transform(y_test)
+
+    plt.plot(y_test)
+    plt.plot(y_pred)
+
+    plt.savefig(str(datetime.datetime.now())+'.png')
 
     # 예측 결과 출력
     for i in range(len(y_pred)):
