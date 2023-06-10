@@ -154,7 +154,7 @@ if __name__ == "__main__":
             if current_price > maesu_price*0.98:
                 upbit.sell_market_order(REPL, REPL*0.9995)
                 print('juno sell!!!!!!!!!!')
-
+            maemae = 0
         time.sleep(60)
 
 
