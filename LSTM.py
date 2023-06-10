@@ -118,6 +118,7 @@ def get_balance(ticker):
     return 0
 
 maesu_price=0
+maesu_predicted_close=0
 maemae = 0
 
 if __name__ == "__main__":
@@ -139,6 +140,7 @@ if __name__ == "__main__":
         if maemae == 0:
             if target_price < current_price < predicted_close_price:
                 maesu_price = current_price
+                maesu_predicted_close = predicted_close_price
 
                 krw = get_balance("KRW")
 
@@ -151,11 +153,11 @@ if __name__ == "__main__":
             maemae = 1
 
         else : 
-            if current_price > maesu_price*0.98:
+            if current_price > maesu_price*0.98 or :
                 upbit.sell_market_order(REPL, REPL*0.9995)
                 print('juno sell!!!!!!!!!!')
             maemae = 0
-            
+
         time.sleep(60)
 
 
