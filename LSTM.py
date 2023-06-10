@@ -69,7 +69,7 @@ def predict_price(ticker):
     btc_prices = preprocess_data(btc_data)
 
     # 학습 데이터와 테스트 데이터 분리
-    train_size = int(len(btc_prices) * 0.8)
+    train_size = int(len(btc_prices) * 0.9)
     train_data = btc_prices[:train_size]
     test_data = btc_prices[train_size:]
 
