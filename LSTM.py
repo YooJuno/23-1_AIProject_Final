@@ -126,9 +126,6 @@ if __name__ == "__main__":
 
     cnt = 0
     while True:
-        print('\ncnt :',cnt)
-        cnt+=1
-
         now = datetime.datetime.now()
         start_time = get_start_time(REPL)
         end_time = start_time + datetime.timedelta(days=1)
