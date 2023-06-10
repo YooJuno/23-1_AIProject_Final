@@ -9,8 +9,8 @@ import time
 
 
 # 액세스 키 설정
-access_key = "VTJBxRRNXuS6lxzJsPGWlSC2xRvk8d7jGKAztoP1"
-secret_key = "369wva72AmEcbLQjDOLQaSS2zQ4uH4kD8vTOJj6m"
+access_key = ""
+secret_key = ""
 upbit = pyupbit.Upbit(access_key, secret_key)
 REPL = "KRW-XRP"
 
@@ -126,41 +126,38 @@ if __name__ == "__main__":
 
     cnt = 0
     while True:
-        try:
-            print('\ncnt :',cnt)
-            cnt+=1
+        print('\ncnt :',cnt)
+        cnt+=1
 
-            now = datetime.datetime.now()
-            start_time = get_start_time(REPL)
-            end_time = start_time + datetime.timedelta(days=1)
-            schedule.run_pending()
+        now = datetime.datetime.now()
+        start_time = get_start_time(REPL)
+        end_time = start_time + datetime.timedelta(days=1)
+        schedule.run_pending()
 
-            target_price = get_target_price(REPL, 0.6) # k값 중요
-            print('target price :', target_price)
-            current_price = get_current_price(REPL)
-            print('current price :', current_price)
-            print('predicted_close_price : %.1f'%(predicted_close_price))
-            if maemae == 0:
-                if target_price < current_price < predicted_close_price:
-                    maesu_price = current_price
+        target_price = get_target_price(REPL, 0.6) # k값 중요
+        print('target price :', target_price)
+        current_price = get_current_price(REPL)
+        print('current price :', current_price)
+        print('predicted_close_price : %.1f'%(predicted_close_price))
+        if maemae == 0:
+            if target_price < current_price < predicted_close_price:
+                maesu_price = current_price
 
-                    krw = get_balance("KRW")
+                krw = get_balance("KRW")
 
-                    print('krw :', krw)
+                print('krw :', krw)
 
-                    if krw > 5000:
-                        # upbit.buy_market_order(REPL, krw*0.9995)
-                        print('juno buy!!!!!!!!!!')
+                if krw > 5000:
+                    upbit.buy_market_order(REPL, krw*0.9995)
+                    print('juno buy!!!!!!!!!!')
 
-                maemae = 1
+            maemae = 1
 
-            else : 
-                if current_price > maesu_price*0.98:
-      
-                    upbit.sell_market_order(REPL, XRP*0.9995)
-                    print('juno sell!!!!!!!!!!')
-            time.sleep(10)
-        except Exception as e:
-            print(e)
-            time.sleep(1)
+        else : 
+            if current_price > maesu_price*0.98:
+                upbit.sell_market_order(REPL, REPL*0.9995)
+                print('juno sell!!!!!!!!!!')
+
+        time.sleep(60)
+
 
