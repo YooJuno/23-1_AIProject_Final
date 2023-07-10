@@ -6,6 +6,7 @@ import datetime
 access = "your-access"
 secret = "your-secret"
 
+
 def get_target_price(ticker, k):
     """변동성 돌파 전략으로 매수 목표가 조회"""
     df = pyupbit.get_ohlcv(ticker, interval="day", count=2)
