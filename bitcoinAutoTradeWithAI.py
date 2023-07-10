@@ -2,10 +2,10 @@ import time
 import pyupbit
 import datetime
 import schedule
-from fbprophet import Prophet
+from prophet import Prophet
 
-access = ""
-secret = ""
+access = "VTJBxRRNXuS6lxzJsPGWlSC2xRvk8d7jGKAztoP1"
+secret = "369wva72AmEcbLQjDOLQaSS2zQ4uH4kD8vTOJj6m"
 
 def get_target_price(ticker, k):
     """변동성 돌파 전략으로 매수 목표가 조회"""
@@ -38,7 +38,7 @@ predicted_close_price = 0
 def predict_price(ticker):
     """Prophet으로 당일 종가 가격 예측"""
     global predicted_close_price
-    df = pyupbit.get_ohlcv(ticker, interval="minute60")
+    df = pyupbit.get_ohlcv(ticker, interval="minute1")
     df = df.reset_index()
     df['ds'] = df['index']
     df['y'] = df['close']
@@ -85,12 +85,12 @@ while True:
                 krw = get_balance("KRW")
                 print('krw :', krw)
                 if krw > 5000:
-                    # upbit.buy_market_order("KRW-XRP", krw*0.9995)
+                    upbit.buy_market_order("KRW-XRP", krw*0.9995)
                     print('juno buy!!!!!!!!!!')
         else:
             XRP = get_balance("XRP")
             if XRP > 0.00008:
-                # upbit.sell_market_order("KRW-XRP", XRP*0.9995)
+                upbit.sell_market_order("KRW-XRP", XRP*0.9995)
                 print('juno sell!!!!!!!!!!')
         time.sleep(10)
     except Exception as e:
